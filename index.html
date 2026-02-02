@@ -1,0 +1,664 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spell Builder</title>
+    <style>
+      :root {
+        --bg: #0b1020;
+        --panel: rgba(255, 255, 255, 0.06);
+        --panel2: rgba(255, 255, 255, 0.09);
+        --border: rgba(255, 255, 255, 0.12);
+        --text: rgba(255, 255, 255, 0.92);
+        --muted: rgba(255, 255, 255, 0.68);
+        --muted2: rgba(255, 255, 255, 0.55);
+        --accent: #7c5cff;
+        --danger: #ff5c7c;
+        --good: #49d67e;
+        --shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+        --radius: 14px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family:
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          Segoe UI,
+          Roboto,
+          Helvetica,
+          Arial,
+          "Apple Color Emoji",
+          "Segoe UI Emoji";
+        color: var(--text);
+        background:
+          radial-gradient(1200px 600px at 20% 10%, rgba(124, 92, 255, 0.35), transparent 60%),
+          radial-gradient(800px 500px at 80% 30%, rgba(73, 214, 126, 0.22), transparent 60%),
+          radial-gradient(1000px 600px at 40% 100%, rgba(255, 92, 124, 0.18), transparent 60%),
+          var(--bg);
+      }
+
+      .app {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 18px 16px 22px;
+      }
+
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 14px 14px 18px;
+      }
+
+      .title {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .title h1 {
+        margin: 0;
+        font-size: 20px;
+        letter-spacing: 0.2px;
+      }
+      .title p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .tabs {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .tabBtn {
+        appearance: none;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--text);
+        padding: 8px 10px;
+        border-radius: 999px;
+        cursor: pointer;
+        font-size: 13px;
+        transition:
+          transform 120ms ease,
+          background 120ms ease,
+          border-color 120ms ease;
+      }
+      .tabBtn:hover {
+        transform: translateY(-1px);
+        background: rgba(255, 255, 255, 0.07);
+      }
+      .tabBtn[data-active="true"] {
+        border-color: rgba(124, 92, 255, 0.7);
+        background: rgba(124, 92, 255, 0.18);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: 1.18fr 0.42fr 1.4fr;
+        gap: 12px;
+      }
+
+      @media (max-width: 1050px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        min-height: 520px;
+      }
+
+      .panelHeader {
+        padding: 12px 12px 10px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+      .panelHeader h2 {
+        margin: 0;
+        font-size: 14px;
+        letter-spacing: 0.2px;
+      }
+      .panelHeader .hint {
+        color: var(--muted2);
+        font-size: 12px;
+      }
+
+      .panelBody {
+        padding: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .hint {
+        color: var(--muted2);
+        font-size: 12px;
+      }
+
+      .row {
+        display: grid;
+        grid-template-columns: 1fr 160px 40px;
+        gap: 8px;
+        align-items: end;
+        padding: 10px;
+        border: 1px solid var(--border);
+        background: rgba(0, 0, 0, 0.12);
+        border-radius: 12px;
+      }
+
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      label {
+        font-size: 11px;
+        color: var(--muted);
+      }
+      select,
+      input[type="number"],
+      input[type="text"],
+      textarea {
+        width: 100%;
+        padding: 10px 10px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        background: rgba(0, 0, 0, 0.28);
+        color: var(--text);
+        outline: none;
+      }
+      select:focus,
+      input:focus,
+      textarea:focus {
+        border-color: rgba(124, 92, 255, 0.7);
+        box-shadow: 0 0 0 3px rgba(124, 92, 255, 0.18);
+      }
+
+      .iconBtn {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        background: rgba(0, 0, 0, 0.28);
+        color: var(--text);
+        cursor: pointer;
+        transition:
+          transform 120ms ease,
+          background 120ms ease,
+          border-color 120ms ease;
+      }
+      .iconBtn:hover {
+        transform: translateY(-1px);
+        border-color: rgba(255, 92, 124, 0.65);
+        background: rgba(255, 92, 124, 0.12);
+      }
+
+      .primaryBtn {
+        appearance: none;
+        border: 1px solid rgba(124, 92, 255, 0.55);
+        background: rgba(124, 92, 255, 0.18);
+        color: var(--text);
+        padding: 10px 12px;
+        border-radius: 12px;
+        cursor: pointer;
+        font-size: 13px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition:
+          transform 120ms ease,
+          background 120ms ease,
+          border-color 120ms ease;
+      }
+      .primaryBtn:hover {
+        transform: translateY(-1px);
+        border-color: rgba(124, 92, 255, 0.85);
+        background: rgba(124, 92, 255, 0.26);
+      }
+
+      .subtleBtn {
+        appearance: none;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--text);
+        padding: 10px 12px;
+        border-radius: 12px;
+        cursor: pointer;
+        font-size: 13px;
+        transition:
+          transform 120ms ease,
+          background 120ms ease,
+          border-color 120ms ease;
+      }
+      .subtleBtn:hover {
+        transform: translateY(-1px);
+        background: rgba(255, 255, 255, 0.07);
+      }
+
+      .pill {
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 6px 10px;
+        font-size: 12px;
+        background: rgba(0, 0, 0, 0.18);
+        color: var(--muted);
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .pill strong {
+        color: var(--text);
+        font-weight: 600;
+      }
+
+      .stack {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .tokensList {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 6px;
+      }
+
+      .tokenLine {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        border: 1px solid var(--border);
+        background: rgba(0, 0, 0, 0.12);
+        border-radius: 12px;
+        padding: 10px 10px;
+      }
+      .tokenLine .left {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .tokenLine .aspect {
+        font-size: 13px;
+        font-weight: 600;
+      }
+      .tokenLine .meta {
+        font-size: 11px;
+        color: var(--muted2);
+      }
+      .tokenLine .count {
+        font-variant-numeric: tabular-nums;
+        font-size: 14px;
+      }
+
+      .sectionTitle {
+        margin: 10px 0 0;
+        font-size: 12px;
+        color: var(--muted);
+        letter-spacing: 0.2px;
+        text-transform: uppercase;
+      }
+
+      .effects {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      .effectCard {
+        border: 1px solid var(--border);
+        background: rgba(0, 0, 0, 0.12);
+        border-radius: 12px;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .effectTop {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+      .effectName {
+        font-size: 13px;
+        font-weight: 650;
+      }
+      .effectBadges {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+      .badge {
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.04);
+        border-radius: 999px;
+        padding: 4px 8px;
+        font-size: 11px;
+        color: var(--muted);
+      }
+      .badge.universal {
+        border-color: rgba(73, 214, 126, 0.55);
+        background: rgba(73, 214, 126, 0.12);
+        color: rgba(201, 255, 220, 0.92);
+      }
+      .badge.costly {
+        border-color: rgba(255, 92, 124, 0.55);
+        background: rgba(255, 92, 124, 0.12);
+        color: rgba(255, 220, 228, 0.92);
+      }
+
+      .effectDesc {
+        margin: 0;
+        font-size: 12px;
+        color: var(--muted);
+        line-height: 1.35;
+      }
+
+      .effectCostLine {
+        margin: 0;
+        font-size: 11px;
+        color: var(--muted2);
+        line-height: 1.3;
+      }
+
+      .effectControls {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        align-items: end;
+      }
+
+      .toggle {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .toggle input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        accent-color: var(--accent);
+      }
+
+      .warn {
+        color: rgba(255, 220, 228, 0.92);
+        font-size: 12px;
+      }
+
+      .ok {
+        color: rgba(201, 255, 220, 0.92);
+        font-size: 12px;
+      }
+
+      .spellSummary {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .summaryCard {
+        border: 1px solid var(--border);
+        background: rgba(0, 0, 0, 0.12);
+        border-radius: 12px;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        min-height: 70px;
+      }
+      .summaryCard .k {
+        color: var(--muted2);
+        font-size: 11px;
+      }
+      .summaryCard .v {
+        font-size: 13px;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .textBox {
+        border: 1px solid var(--border);
+        background: rgba(0, 0, 0, 0.12);
+        border-radius: 12px;
+        padding: 10px;
+      }
+
+      .textBox pre {
+        margin: 0;
+        white-space: pre-wrap;
+        word-break: break-word;
+        font-family:
+          ui-monospace,
+          SFMono-Regular,
+          Menlo,
+          Monaco,
+          Consolas,
+          "Liberation Mono",
+          "Courier New",
+          monospace;
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.86);
+        line-height: 1.35;
+      }
+
+      .exportBox textarea,
+      .importBox textarea {
+        min-height: 220px;
+        resize: vertical;
+      }
+
+      .splitButtons {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <header>
+        <div class="title">
+          <h1>Spell Builder</h1>
+          <p>Allocate aspect tokens, select effects, and export/import compact JSON.</p>
+        </div>
+        <div class="tabs" role="tablist" aria-label="Pages">
+          <button class="tabBtn" id="tab-builder" data-page="builder" data-active="true" role="tab">
+            Builder
+          </button>
+          <button class="tabBtn" id="tab-export" data-page="export" data-active="false" role="tab">
+            Export
+          </button>
+          <button class="tabBtn" id="tab-import" data-page="import" data-active="false" role="tab">
+            Import
+          </button>
+        </div>
+      </header>
+
+      <main>
+        <!-- BUILDER PAGE -->
+        <section id="page-builder" data-page="builder">
+          <div class="grid">
+            <!-- LEFT: Aspects -->
+            <section class="panel" aria-label="Aspects panel">
+              <div class="panelHeader">
+                <div>
+                  <h2>Aspects</h2>
+                  <div class="hint">Add an aspect, then set its token count.</div>
+                </div>
+                <button class="primaryBtn" id="btnAddAspect" type="button">Add Aspect</button>
+              </div>
+              <div class="panelBody">
+                <div id="aspectRows" class="stack"></div>
+                <div class="hint" id="aspectsHint">
+                  No aspects yet. Click <strong>Add Aspect</strong> to begin.
+                </div>
+              </div>
+            </section>
+
+            <!-- MIDDLE: Remaining -->
+            <section class="panel" aria-label="Remaining panel" style="min-height: 520px">
+              <div class="panelHeader">
+                <div>
+                  <h2>Remaining</h2>
+                  <div class="hint">Budget window (tokens + word slots).</div>
+                </div>
+              </div>
+              <div class="panelBody">
+                <div class="stack">
+                  <div class="pill">
+                    Tokens Remaining: <strong id="tokensRemaining">0</strong>
+                  </div>
+                  <div class="pill">
+                    Words Remaining: <strong id="wordsRemaining">8</strong>
+                  </div>
+                  <div class="hint" id="wordsRemainingBreakdown">
+                    Subject: <strong id="wordsRemSubject">2</strong> • Power: <strong id="wordsRemPower">2</strong> • Temper:
+                    <strong id="wordsRemTemper">2</strong> • Flourish: <strong id="wordsRemFlourish">2</strong>
+                  </div>
+                </div>
+
+                <div class="sectionTitle">Allocated tokens</div>
+                <div id="tokensList" class="tokensList"></div>
+              </div>
+            </section>
+
+            <!-- RIGHT: Spell -->
+            <section class="panel" aria-label="Spell panel">
+              <div class="panelHeader">
+                <div>
+                  <h2>Spell</h2>
+                  <div class="hint">Pick effects (some are Universal).</div>
+                </div>
+                <div class="splitButtons">
+                  <button class="primaryBtn" id="btnAddEffect" type="button">Add Effect</button>
+                  <button class="subtleBtn" id="btnReset" type="button">Reset</button>
+                </div>
+              </div>
+              <div class="panelBody">
+                <div class="spellSummary" aria-label="Spell summary">
+                  <div class="summaryCard">
+                    <div class="k">Cost</div>
+                    <div class="v" id="sumTotalCost">0</div>
+                  </div>
+                  <div class="summaryCard">
+                    <div class="k">Tags</div>
+                    <div class="v" id="sumTags">—</div>
+                  </div>
+                </div>
+
+                <div class="sectionTitle">Spell variables</div>
+                <div class="row" style="grid-template-columns: 1fr 1fr; gap: 10px">
+                  <div class="field">
+                    <label>N</label>
+                    <input id="spellVarN" type="number" min="0" max="999" step="1" value="0" />
+                  </div>
+                  <div class="field">
+                    <label>X</label>
+                    <input id="spellVarX" type="number" min="0" max="999" step="1" value="0" />
+                  </div>
+                </div>
+
+                <div class="sectionTitle">Effects</div>
+                <div
+                  id="addEffectPanel"
+                  class="row"
+                  style="display: none; grid-template-columns: 1fr 130px 130px; align-items: end"
+                >
+                  <div class="stack" style="gap: 8px">
+                    <div class="field">
+                      <label>Filter By Aspect</label>
+                      <select id="filterAspect"></select>
+                    </div>
+                    <div class="field">
+                      <label>Select effect</label>
+                      <select id="selectEffectToAdd"></select>
+                    </div>
+                  </div>
+                  <button class="primaryBtn" id="btnConfirmAddEffect" type="button">Add</button>
+                  <button class="subtleBtn" id="btnCancelAddEffect" type="button">Cancel</button>
+                </div>
+                <div id="effectsContainer" class="effects"></div>
+
+                <div class="sectionTitle">Spell text (ordered by sentence priority)</div>
+                <div class="splitButtons" style="margin-top: 6px">
+                  <button class="tabBtn" id="btnTextDetailed" type="button" data-active="true">Detailed</button>
+                  <button class="tabBtn" id="btnTextShort" type="button" data-active="false">Shortened</button>
+                </div>
+                <div class="textBox">
+                  <pre id="spellText">(Add effects to generate text.)</pre>
+                </div>
+
+                <div id="budgetWarning" class="warn" style="display: none"></div>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <!-- EXPORT PAGE -->
+        <section id="page-export" data-page="export" style="display: none">
+          <div class="panel" style="min-height: 540px">
+            <div class="panelHeader">
+              <div>
+                <h2>Export</h2>
+                <div class="hint">Compact JSON (copy/paste).</div>
+              </div>
+              <div class="splitButtons">
+                <button class="subtleBtn" id="btnRefreshExport" type="button">Refresh</button>
+                <button class="primaryBtn" id="btnCopyExport" type="button">Copy</button>
+              </div>
+            </div>
+            <div class="panelBody exportBox">
+              <textarea id="exportJson" spellcheck="false"></textarea>
+              <div class="hint" id="exportHint"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- IMPORT PAGE -->
+        <section id="page-import" data-page="import" style="display: none">
+          <div class="panel" style="min-height: 540px">
+            <div class="panelHeader">
+              <div>
+                <h2>Import</h2>
+                <div class="hint">Paste compact JSON, then apply.</div>
+              </div>
+              <div class="splitButtons">
+                <button class="primaryBtn" id="btnApplyImport" type="button">Apply Import</button>
+              </div>
+            </div>
+            <div class="panelBody importBox">
+              <textarea id="importJson" spellcheck="false" placeholder='{"...": "..."}'></textarea>
+              <div class="hint" id="importHint"></div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
+
