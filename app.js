@@ -802,7 +802,12 @@ This spell must have the Imbue Rune effect. Adds the following Trigger statement
   function detectAdds(desc) {
     const d = String(desc || "");
     const adds = { addSubject: 0, addPower: 0, addTemper: 0, addFlourish: 0 };
-    const r = /Add\s+(\d+)\s+Words?\s+to\s+(?:your|this spell[’']s)\s+(Subject|Power|Temper|Flourish)/gi;
+    // Examples we want to catch:
+    // - "Add 1 Word to your Flourish."
+    // - "Add 1 Word to your spell’s Subject phrase."
+    // - "Add 2 Words to this spell's Temper"
+    const r =
+      /Add\s+(\d+)\s+Words?\s+to\s+(?:your\s+spell[’']s|this\s+spell[’']s|this\s+spell's|your)\s+(Subject|Power|Temper|Flourish)/gi;
     let m;
     while ((m = r.exec(d))) {
       const n = clampInt(m[1], 0, 99);
@@ -835,7 +840,7 @@ This spell must have the Imbue Rune effect. Adds the following Trigger statement
     function pushCurrent() {
       if (!current) return;
       // infer stackable
-      if (/You may take this effect multiple times\./i.test(current.desc || "")) current.stackable = true;
+      if (/may take this effect multiple times\b/i.test(current.desc || "")) current.stackable = true;
       // infer adds
       const adds = detectAdds(current.desc || "");
       Object.assign(current, adds);
