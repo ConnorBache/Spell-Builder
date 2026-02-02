@@ -268,7 +268,7 @@ Requires Conjure Thralls. When your Thralls are targeted, you may choose to be t
 
 Blood Sacrifice (Temper, +N Cost) — Blood
 Harm, Instant
-Take 5N damage which cannot be reduced. Target takes 5N additional damage from the spell.
+Take 2N damage which cannot be reduced. Target takes 2N additional damage from the spell.
 Augment (2 Temper, +0 Cost): Adds no cost.
 
 Bloodied Fist (Temper, +8 Cost) — Blood
@@ -651,7 +651,7 @@ This spell must have the Imbue Rune effect. Adds the following Trigger statement
 Trigger: Allied Presence (Flourish, +0 Cost) — Rune
 This spell must have the Magick Circle effect. Adds the following Trigger statement: At least a chosen number of living living allies (including the caster) are present in the Rune's area.
 
-Trigger: Enemy Presence (Flourish, +0 Cost)
+Trigger: Enemy Presence (Flourish, +0 Cost) — Rune
 This spell must have the Magick Circle effect. Adds the following Trigger statement: At least a chosen number of living enemies are present in the Rune's area.
 
 Twin Bolts (Flourish, +2 Cost) — Elemental
@@ -675,7 +675,7 @@ You may cast this spell as if you are occupying the space of any creature to whi
 Widen Spell (Flourish, -1 Cost) — Elemental
 Requires a Radius effect. The size of the radius is increased by 2.
 
-Wild Magick (Flourish, +4 Cost)
+Wild Magick (Flourish, +4 Cost) — Fate
 Roll 2d6. The order of the dice does not matter. Consult the table below for the result of each combination. Effects that reference a radius can affect a 5 block radius centered on you. This is a Crux effect.
 
 Wildfire (Power, +3 Cost) — Elemental
@@ -705,7 +705,7 @@ Add 2 words to your Flourish.
 Superior Casting Tool (Wordless, +0 Cost) — Arcane
 Add 1 Word to your Flourish. You must have one or two hands occupied with a casting tool to cast this spell.
 
-Trigger: Recursion (Wordless, -1 Cost)
+Trigger: Recursion (Wordless, -1 Cost) — Rune
 This spell must have the Imbue Rune effect. Adds the following Trigger statement: Any creature has been affected by the activation of a Rune while marked by this Rune.`;
 
   function normalizeAspects(aspectsText) {
