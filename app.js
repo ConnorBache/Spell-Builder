@@ -382,7 +382,7 @@ Augment (2 Temper, +4 Cost): Instead of reducing Presence by an amount equal to 
 
 Lifesteal (Temper, +4 Cost) — Blood, Hollow, Void
 Link, Persistent
-This spell must target a single creature. While the spell is in effect, count the amount of damage dealt to the target by the effects of this spell. At the beginning of each of your turns while the spell is in effect, regain HP equal to 1/2 the amount counted and reset the count to 0. If an instance of damage reduces a creature to 0 HP with damage remaining, the excess damage is not counted.
+This spell must target a single creature. Before resolving this spell’s other effects, and at the start of each of your turns while the spell is in effect, you read the target’s HP. Each time you read the target’s HP in this way at the start of a turn, regain HP equal to 1/4 the amount by which the prior reading exceeds the new one.
 
 Pierce (Temper, +2 Cost) — Astral, Blood, Shadow
 Harm
