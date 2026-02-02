@@ -843,6 +843,13 @@ This spell must have the Imbue Rune effect. Adds the following Trigger statement
       if (/may take this effect multiple times\b/i.test(current.desc || "")) current.stackable = true;
       // infer adds
       const adds = detectAdds(current.desc || "");
+      // Fallback special-cases (keeps behavior stable even if wording changes)
+      const nm = String(current.name || "").toLowerCase();
+      if (adds.addPower === 0 && adds.addSubject === 0 && adds.addTemper === 0 && adds.addFlourish === 0) {
+        if (nm.startsWith("verbose power")) adds.addPower = 1;
+        if (nm.startsWith("verbose subject")) adds.addSubject = 1;
+        if (nm.startsWith("verbose temper")) adds.addTemper = 1;
+      }
       Object.assign(current, adds);
       // infer short description
       current.shortDesc = makeShortDesc(current.desc || "");
