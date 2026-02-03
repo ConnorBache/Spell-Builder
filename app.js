@@ -766,6 +766,8 @@ This spell must have the Imbue Rune effect. Adds the following Trigger statement
     s = s.replace(/COST-/g, "-");
     // normalize: if starts with "X" or "N" treat as +X/+N
     if (/^[NX]/.test(s)) s = `+${s}`;
+    // normalize: if starts with a number treat as +<number>
+    if (/^\d/.test(s)) s = `+${s}`;
 
     let bpCost = 0;
     let nCostPerUnit = 0;
@@ -931,7 +933,12 @@ This spell must have the Imbue Rune effect. Adds the following Trigger statement
         // Parse "(word, cost)" where cost can be "Cost +X" etc.
         const parts = paren.split(",").map((p) => p.trim()).filter(Boolean);
         const wordPart = parts.find((p) => /Subject|Power|Temper|Flourish|Wordless/i.test(p)) || parts[0] || "";
-        const costPart = parts.find((p) => /Cost/i.test(p) || /[NX]/i.test(p) || /[+-]?\d/i.test(p)) || parts[1] || "";
+        const costPart =
+          parts.find((p) => p !== wordPart && /Cost/i.test(p)) ||
+          parts.find((p) => p !== wordPart && /[NX]/i.test(p)) ||
+          parts.find((p) => p !== wordPart && /[+-]?\d/i.test(p)) ||
+          parts[1] ||
+          "";
 
         const words = parseWordCost(wordPart);
         const cost = parseCostExpr(costPart);
@@ -951,7 +958,12 @@ This spell must have the Imbue Rune effect. Adds the following Trigger statement
           const desc = am[2].trim();
           const parts = paren.split(",").map((p) => p.trim()).filter(Boolean);
           const wordPart = parts.find((p) => /Subject|Power|Temper|Flourish|Wordless/i.test(p)) || parts[0] || "";
-          const costPart = parts.find((p) => /Cost/i.test(p) || /[NX]/i.test(p) || /[+-]?\d/i.test(p)) || parts[1] || "";
+          const costPart =
+            parts.find((p) => p !== wordPart && /Cost/i.test(p)) ||
+            parts.find((p) => p !== wordPart && /[NX]/i.test(p)) ||
+            parts.find((p) => p !== wordPart && /[+-]?\d/i.test(p)) ||
+            parts[1] ||
+            "";
           const words = parseWordCost(wordPart);
           const cost = parseCostExpr(costPart);
 
