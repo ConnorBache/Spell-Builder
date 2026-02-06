@@ -56,9 +56,15 @@ This spell has infinite Range. In the absence of other Subject effects, it targe
 Fork (Subject, +3 Cost) — Arcane, Shadow
 The spell targets and affects three creatures or blocks within range. Requires a Range effect.
 
-Free Line (Subject, +2 Cost) — Astral, Elemental, Phantasm, Rune, Shadow
+Free Line (Subject, +2 Cost) — Astral, Elemental, Pact, Phantasm, Rune, Shadow
 Area
 This spell affects all blocks and creatures in a straight line between two points within range. Requires a Range effect.
+
+Steal Soul (Subject, +5 Cost) — Pact
+This spell requires a Deal effect. Instead of receiving the Deal effect, you give the Deal effects to a willing affected ally.
+
+Stretch Through Shadow (Subject, +2 Cost) — Shadow
+This spell may be cast as though your position is your Shadow’s position, including for determining adjacency.
 
 Frugal Subject (Subject, -1 Cost) — Universal
 No effect. You may take this effect multiple times.
@@ -220,9 +226,22 @@ Sequence
 At the beginning of your next turn, regain 8 BP.
 Augment (2 Power, +3 Cost): At the beginning of your next turn, regain 15 BP.
 
-Misdirection (Power, +8 Cost) — Phantasm, Pact
+Misdirection (Power, +3 Cost) — Phantasm, Pact
 Crux, Boon, Transient
 When a strike is declared against an affected creature, the target may roll a d2. On a 2, the striker must choose a different target for the strike if another valid target is in range.
+
+Corporeal Shadow (Power, +N Cost) — Shadow
+Requires Place Shadow. Your Shadow has HP equal to N, an AC of 0 and is treated like an Allied Creature and may not be moved through. When it reaches 0 HP, it dies and is removed from the battlefield. At the start of each of your turns, your Shadow may take a major action as if it had the same character sheet as you, but shares your Boost Points and Mana.
+
+Malignant Shadow (Power, +10 Cost) — Shadow
+Harm
+Affected creatures which are adjacent to your Shadow take Spirit additional damage.
+
+Untold Power (Power, +0 Cost) — Pact
+Deal, Harm
+Benefit: Affected creatures take Spirit additional damage.
+Delay Cost: Take damage equal to a fourth of your Maximum HP.
+Close Cost: Take damage equal to three-fourths of your Maximum HP.
 
 Renounce Power (Power, -4 Cost) — Arcane
 No effect. You may take this effect multiple times.
@@ -258,6 +277,40 @@ Augment (1 Temper, +5 Cost): Affected creatures cannot be targeted by strikes or
 Backlash (Temper, +6 Cost) — Fate
 Crux, Harm, Instant
 Roll a d2. On a 2, the spell deals Spirit additional damage. On a 1, you take Spirit damage from the spell.
+
+Bargain (Temper, +20 Cost) — Pact
+Crux
+Choose one of your Deals. Roll a d6. On a 6, close that Deal without paying the cost. On a 1-3, you must pay to close that Deal or die.
+
+Exchange of Favors (Temper, +2 Cost) — Pact
+Deal
+Benefit: Once per turn, at the end of this cast action, gain a Major action.
+Delay Cost: Lose a major action.
+Close Cost: Lose a major, minor and move action.
+
+Pleasures of the Flesh (Temper, +N Cost) — Pact
+Deal
+Benefit: Affected creatures regain 3N HP.
+Delay Cost: Every time you regain HP, you regain N less.
+Close Cost: Every time you regain HP, you regain 2N less.
+
+Riches Aplenty (Temper, +0 Cost) — Pact
+Deal
+Benefit: Gain a Potion worth 800 Lurcks or less.
+Delay Cost: Disable one of your Enhancement Add-Ons.
+Close Cost: You lose the effect of one of your Enhanced Items for the rest of combat.
+
+Stopper Death (Temper, +5 Cost) — Pact
+Deal
+Benefit: You cannot die until the start of your next turn. This cannot spare you from a Deal.
+Delay Cost: Half your Maximum BP or 5 BP, whichever is greater.
+Close Cost: Die.
+
+True Love (Temper, +0 Cost) — Pact
+Deal
+Benefit: Increase the attribute of a willing affected ally, other than you, by 5.
+Delay Cost: That ally decreases their highest attribute by 2.
+Close Cost: Decrease your highest attribute by 7.
 
 Blast (Temper, +4 Cost) — Elemental
 Harm, Instant
@@ -380,7 +433,7 @@ Bane, Persistent
 Requires the Master’s Boon Subject. Affected creatures cannot move. Instead, they can spend one or more blocks of movement from a Run or Dash action to reduce the Thralls’ Presence by the same amount. They are cleansed of this effect when your Thralls are destroyed.
 Augment (2 Temper, +4 Cost): Instead of reducing Presence by an amount equal to the movement spent, reduce Presence by 1 for every 2 blocks of movement spent.
 
-Lifesteal (Temper, +4 Cost) — Blood, Hollow, Void
+Lifesteal (Temper, +8 Cost) — Blood, Hollow, Void
 Link, Persistent
 This spell must target a single creature. Before resolving this spell’s other effects, and at the start of each of your turns while the spell is in effect, you read the target’s HP. Each time you read the target’s HP in this way at the start of a turn, regain HP equal to 1/4 the amount by which the prior reading exceeds the new one.
 
@@ -420,9 +473,12 @@ Conditional, Harm, Instant, Rupture
 Requires Blood Oath. If this spell causes the target to Rupture, it takes Spirit additional damage. The Tithe required for this spell to cause a Rupture increases by 5X.
 If the target is cleansed of this spell’s Blood Oath effect before it causes a Rupture, the target is cleansed of this effect.
 
-Shade Shift (Temper, +X Cost) — Shadow
+Place Shadow (Temper, +2 Cost) — Shadow
+Place your Shadow on an affected and unoccupied block. You may only have 1 Shadow at a time. Creatures can move through your Shadow but cannot end any action on top of it.
+
+Shade Shift (Temper, +4 Cost) — Shadow
 Instant
-Each affected creature appears in a space of your choice up to 8 blocks away from its prior position, ignoring all obstacles. An affected creature may choose to take Spirit damage instead of moving.
+Requires a Range effect. Each affected grounded creature appears on a block of your choice within range of you, ignoring all obstacles. An affected creature may choose to take Spirit damage instead of appearing.
 
 Shield of Thralls (Temper, +4 Cost) — Hollow
 Requires Conjure Thralls. When a strike is made against an ally to whom your Thralls are attached, the damage of the strike is reduced by double the Thralls’ Presence and your Thralls lose 1 Presence. When your Thralls are damaged, they lose 2 extra Presence.
@@ -539,8 +595,8 @@ Insight (Flourish, +3 Cost) — Fate
 Clarity, Persistent
 This spell must target a single creature. You learn its attributes. While the target is under this effect, you may learn any number of its attributes at the start of each of your turns.
 
-Instill Illusion (Flourish, +K Cost) — Phantasm
-You plant your Illusion in the target with an Intensity of 1. If you have already planted an Illusion in the target, its Intensity increases by 1. When cleansed, the Illusion loses 2 Intensity. An Illusion with 0 Intensity is destroyed.
+Instill Illusion (Flourish, +2 Cost) — Phantasm
+You plant your Illusion in the target with an Intensity of 1. If you have already planted an Illusion in the target, its Intensity increases by 1. When cleansed, the Illusion loses 2 Intensity. An Illusion with 0 Intensity is destroyed. An illusion can only be increased by a maximum of 2 per round.
 
 Linger (Flourish, +0 Cost) — Universal
 Requires an Area effect. Any persistent effects of this spell linger in the area of effect. They are removed from creatures that leave the area and applied to creatures that enter. The effects of the spell are not cleansable.
@@ -606,6 +662,12 @@ Lose X BP. Affected creatures other than yourself regain X BP.
 
 Steal Magick (Flourish, +1 Cost) — Arcane, Pact, Void
 Requires the Cleanse or Precise Cleanse effect. Give yourself an effect of your choice cleansed by this spell.
+
+Knowledge Unbound (Flourish, +3 Cost) — Pact
+Deal
+Benefit: Select an affected enemy and you learn their character sheet.
+Delay Cost: Forget a spell for the rest of combat.
+Close Cost: Forget the Cast boost.
 
 Strength Casting (Flourish, +0 Cost) — Soul, Void
 If any effects of this spell reference Spirit to determine their outcome, you may use your Strength score instead.
@@ -698,6 +760,9 @@ If any effects of this spell reference Spirit to determine their outcome, you ma
 
 Magick Circle (Wordless, +0 Cost) — Rune
 This spell must have the Imbue Rune effect and an Area effect. Rather than marking the affected creatures, the spell marks its area of effect with a Rune. All creatures inside the area are affected by the spell when the Rune is triggered. All creatures inside the area before it is triggered are considered 'marked' for the purpose of Trigger effects.
+
+Shadow Walk (Wordless, +0 Cost) — Shadow
+After this spell is cast, you may swap the position of yourself and your Shadow.
 
 Parataxis (Wordless, +7 Cost) — Arcane
 Add 2 words to your Flourish.
