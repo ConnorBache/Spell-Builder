@@ -80,7 +80,7 @@ Area, Radius
 Requires a Range effect. The spell must target one block within its range. It affects all blocks and creatures in a 3-block radius centered on the targeted block. 
 Augment (2 Subject, +1 Cost): Increase affected radius to 4 blocks.
 
-Radius, Unlimited (Subject, +6 cost) — Elemental
+Radius, Unlimited (Subject, +3X Cost) — Elemental
 Area, Radius
 Requires a Range effect. The spell must target one block within its range. It affects all blocks and creatures in a X-block radius centered on the targeted block. 
 Augment (2 Subject, 1+3X cost): As above, but the radius is 3+X.
