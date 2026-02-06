@@ -1918,11 +1918,14 @@ function renderAddEffectPanel() {
     return getEffectAspects(e).includes(f);
   }
 
-  const addable = all
+  // Effects should not disappear just because you lack words:
+  // keep them visible but disabled (greyed out by the browser).
+  // Still hide things that cannot be taken due to tokens/aspect allocation.
+  const candidates = all
     .filter((e) => !selectedIds.has(e.id) || !!e.stackable)
     .filter((e) => passesAspectFilter(e))
-    .filter((e) => isAffordableByWords(e) && isAffordableByTokens(e));
-  addable.sort((a, b) => {
+    .filter((e) => isAffordableByTokens(e));
+  candidates.sort((a, b) => {
     const wa = wordTypeRank(a);
     const wb = wordTypeRank(b);
     if (wa !== wb) return wa - wb;
@@ -1934,14 +1937,15 @@ function renderAddEffectPanel() {
 
   const placeholder = document.createElement("option");
   placeholder.value = "";
-  placeholder.textContent = addable.length ? "Select an effect…" : "No available effects";
+  placeholder.textContent = candidates.length ? "Select an effect…" : "No available effects";
   select.appendChild(placeholder);
 
-  for (const e of addable) {
+  for (const e of candidates) {
     const opt = document.createElement("option");
     opt.value = e.id;
     // Names are already fully formatted in the raw list (keep exact)
     opt.textContent = e.name;
+    if (!isAffordableByWords(e)) opt.disabled = true;
 
     select.appendChild(opt);
   }
@@ -1950,7 +1954,7 @@ function renderAddEffectPanel() {
   if (panel.style.display !== "none") {
     // keep current selection if still valid; otherwise reset
     const current = select.value;
-    if (current && !addable.some((e) => e.id === current)) select.value = "";
+    if (current && !candidates.some((e) => e.id === current)) select.value = "";
   }
 }
 
